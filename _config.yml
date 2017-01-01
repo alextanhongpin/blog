@@ -31,3 +31,6 @@ gems:
 exclude:
   - Gemfile
   - Gemfile.lock
+disqus:
+    shortname: alextanhongpin
+google_analytics: UA-89686513-1
