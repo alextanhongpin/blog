@@ -3,6 +3,7 @@ layout: post
 title:  "Running a Koa Server"
 date:   2017-01-03 8:52:16 +0800
 categories: koa
+comments: true
 ---
 
 Let's create a basic Koa server that will serve some api endpoints.

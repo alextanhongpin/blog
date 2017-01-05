@@ -3,6 +3,7 @@ layout: post
 title:  "2017, Another Year of Coding and Design"
 date:   2017-01-01 19:37:16 +0800
 categories: introduction
+comments: true
 ---
 
 I started programming in Jun 26, 2013. 
