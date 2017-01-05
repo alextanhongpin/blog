@@ -13,7 +13,6 @@ $ npm install koa@2 --save
 
 $ npm install koa-router@next --save
 
-$ npm install koa-bodyparser@next --save
 ```
 
 Here's the code for a basic koa server.
