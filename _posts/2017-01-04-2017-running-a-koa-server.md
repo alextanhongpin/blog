@@ -12,10 +12,10 @@ You can read more about [koa.js](http://koajs.com/) at the main page. We will be
 $ npm install koa@2 --save
 
 $ npm install koa-router@next --save
-
 ```
 
 Here's the code for a basic koa server.
+
 ```javascript
 // server.js
 
@@ -38,6 +38,7 @@ app.listen(PORT, () => {
   console.log(`listening to port *:${PORT}.\npress ctrl + c to cancel.`)
 })
 ```
+
 When you run `$ node server.js` and go to `localhost:3000/` on your browser, you will see the message `hello world`.
 
 
