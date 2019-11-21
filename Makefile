@@ -2,4 +2,4 @@ start:
 	@jekyll serve
 
 build:
-	@jekyll build
+	@bundle exec jekyll build

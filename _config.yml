@@ -5,7 +5,7 @@ meta_description: "Blogging about random stuff"
 markdown: kramdown
 logo: false
 paginate: 15
-baseurl: /
+baseurl: /blog/
 google_analytics: UA-89686513-1
 plugins: [jekyll-paginate]
 
