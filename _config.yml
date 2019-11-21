@@ -6,9 +6,9 @@ meta_description: "Blogging about random stuff"
 markdown: kramdown
 logo: false
 paginate: 15
-baseurl: /blog
+baseurl: /blog/
 google_analytics: UA-89686513-1
-plugins: [jekyll-paginate]
+plugins: [jekyll-paginate, jemoji]
 
 # Details for the RSS feed generator
 author:         'Alex Tan Hong Pin'
