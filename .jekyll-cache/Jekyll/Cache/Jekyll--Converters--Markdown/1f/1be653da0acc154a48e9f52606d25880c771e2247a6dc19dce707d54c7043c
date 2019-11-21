@@ -1,0 +1,3 @@
+I"Ç<p>Previously I wrote about running a Koa server. If you have trouble running the example, you probably havenâ€™t setup Babel. For our example, Babel is required
+to compile our ES5 codes to ES7.</p>
+:ET

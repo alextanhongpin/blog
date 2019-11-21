@@ -1,0 +1,3 @@
+I"À<p>For almost every project that I worked on, I find that storing images is one the most common operation. To keep things simple, I will usually store the images as base64 string in the database. But storing long strings in the database can really slow down your request when you start firing an ajax to get the image source. That is why I wrote a simple utility called 
+<a href="https://github.com/alextanhongpin/compress.js">compress.js</a>.</p>
+:ET

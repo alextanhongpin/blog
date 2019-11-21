@@ -1,0 +1,31 @@
+I"�<p>Previously I wrote about running a Koa server. If you have trouble running the example, you probably haven’t setup Babel. For our example, Babel is required
+to compile our ES5 codes to ES7.</p>
+
+<p>Here’s how our <code class="highlighter-rouge">package.json</code> will look like.</p>
+
+<figure class="highlight"><pre><code class="language-json" data-lang="json"><span class="err">//</span><span class="w"> </span><span class="err">package.json</span><span class="w">
+</span><span class="err">//...not</span><span class="w"> </span><span class="err">shown</span><span class="w">
+  </span><span class="nl">"devDependencies"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"babel-cli"</span><span class="p">:</span><span class="w"> </span><span class="s2">"^6.18.0"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"babel-plugin-syntax-async-functions"</span><span class="p">:</span><span class="w"> </span><span class="s2">"^6.13.0"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"babel-plugin-transform-async-to-generator"</span><span class="p">:</span><span class="w"> </span><span class="s2">"^6.16.0"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"babel-preset-es2015"</span><span class="p">:</span><span class="w"> </span><span class="s2">"^6.18.0"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"babel-preset-stage-3"</span><span class="p">:</span><span class="w"> </span><span class="s2">"^6.17.0"</span><span class="w">
+  </span><span class="p">}</span></code></pre></figure>
+
+<p>Create a <code class="highlighter-rouge">.bablerc</code> file too. It will contain the config for our babel.</p>
+
+<figure class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+  </span><span class="nl">"presets"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"es2015"</span><span class="p">,</span><span class="w"> </span><span class="s2">"stage-3"</span><span class="p">],</span><span class="w">
+  </span><span class="nl">"plugins"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"transform-async-to-generator"</span><span class="p">]</span><span class="w">
+</span><span class="p">}</span></code></pre></figure>
+
+<p>To run our server with babel, add this to our start command in package.json.</p>
+
+<figure class="highlight"><pre><code class="language-json" data-lang="json"><span class="w">  </span><span class="nl">"scripts"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"start"</span><span class="p">:</span><span class="w"> </span><span class="s2">"nodemon server.js --exec babel-node"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"build"</span><span class="p">:</span><span class="w"> </span><span class="s2">"babel . -d dist"</span><span class="p">,</span><span class="w">
+  </span><span class="p">}</span></code></pre></figure>
+
+<p>Now you can write your node.js server side code in ES7 :smile:.</p>
+:ET
