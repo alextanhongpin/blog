@@ -1,0 +1,18 @@
+{
+  "name": "blog",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "env NODE_ENV=production ./node_modules/.bin/eleventy --pathprefix 'blog'",
+    "serve": "./node_modules/.bin/eleventy --serve"
+  },
+  "keywords": [],
+  "author": "alextanhongpin <alextan220990@gmail.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "@11ty/eleventy": "^2.0.0",
+    "@11ty/eleventy-plugin-syntaxhighlight": "^4.2.0",
+    "clean-css": "^5.3.2"
+  }
+}
