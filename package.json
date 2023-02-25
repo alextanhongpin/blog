@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "env NODE_ENV=production ./node_modules/.bin/eleventy --pathprefix 'blog'",
+    "build": "env NODE_ENV=production ./node_modules/.bin/eleventy",
     "serve": "./node_modules/.bin/eleventy --serve"
   },
   "keywords": [],

@@ -4,6 +4,7 @@ const { format } = require("date-fns");
 const syntaxHighlight = require("@11ty/eleventy-plugin-syntaxhighlight");
 
 module.exports = function (eleventyConfig) {
+  const isProduction = process.env.NODE_ENV === "production";
   eleventyConfig.addPlugin(syntaxHighlight);
 
   // Minify css. Usage.
@@ -61,4 +62,8 @@ module.exports = function (eleventyConfig) {
     const stats = await fs.stat(inputPath);
     return format(stats.mtime, "d MMM Y");
   });
+
+  return {
+    pathPrefix: isProduction ? "/blog/" : "",
+  };
 };

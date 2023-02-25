@@ -10,6 +10,6 @@ pagination:
 <!-- Show all posts. -->
 <ul>
 {%- for post in pagination.items -%}
-  <li><a href="{{ post.url || url }}" ref='noopener noferrer'>{{ post.date | formatDate }}: {{ post.data.title }}</a></li>
+  <li><a href="{{ post.url | url }}" ref='noopener noferrer'>{{ post.date | formatDate }}: {{ post.data.title }}</a></li>
 {%- endfor -%}
 </ul>
