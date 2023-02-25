@@ -1,0 +1,43 @@
+---
+title: info.title
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Include google analytics immediately after the head element. -->
+    {% include "google-tag.njk" %}
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+
+    <!-- Use the default prism syntax highlighting theme. -->
+    <link href="https://unpkg.com/prismjs@1.20.0/themes/prism.css" rel="stylesheet">
+
+    <!-- Include styles. -->
+    {% set css %}
+      {% include "style.css" %}
+      {% include "reset.css" %}
+    {% endset %}
+    <style>
+      {{ css | cssmin | safe }}
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <a class='header-link' href='{{ '/' | url }}' rel="noopener noreferrer">
+        <img class='header-link-image' src='{{ "/assets/profile.jpeg" | url }}' alt='profile picture'/> {{info.title}} 
+      </a>
+    </header>
+
+    <main>
+      {{ content | safe }}
+    </main>
+
+    <footer>
+      {{info.title}} © 2023 • All rights reserved.
+    </footer>
+  </body>
+</html>

@@ -1,12 +1,15 @@
 ---
-layout: page.njk
+layout: layout.njk
+pagination:
+  data: collections.post
+  size: 8
+  reverse: true
 ---
 
+
+<!-- Show all posts. -->
 <ul>
-{%- for post in collections.post -%}
-<li><a href='{{post.url | url}}'>{{post.data.title}}</a></li>
+{%- for post in pagination.items -%}
+  <li><a href="{{ post.url || url }}" ref='noopener noferrer'>{{ post.date | formatDate }}: {{ post.data.title }}</a></li>
 {%- endfor -%}
 </ul>
-
-
-	{{hello.greet}}
