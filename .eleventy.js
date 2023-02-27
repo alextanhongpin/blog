@@ -49,6 +49,16 @@ module.exports = function (eleventyConfig) {
     return `/tag/${tag}`;
   });
 
+  eleventyConfig.addFilter("readingTime", function (body) {
+    const words = (body ?? "")
+      .split("\n")
+      .flatMap((line) => line.trim().split(" ")).length;
+    const wordsPerMinute = 275;
+    const minutes = Math.floor(words / wordsPerMinute);
+    const label = minutes === 1 ? "minute" : "minutes";
+    return minutes ? `${minutes} ${label}` : "";
+  });
+
   function formatDate(date) {
     return format(date, "MMM d, Y");
   }

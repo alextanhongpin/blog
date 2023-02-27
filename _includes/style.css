@@ -74,3 +74,9 @@ footer {
 .tag:hover {
   background: #ddd;
 }
+
+.post-subheader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

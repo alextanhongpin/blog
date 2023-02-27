@@ -4,8 +4,9 @@ layout: layout.njk
 
 <h1> {{ title }} </h1>
 
-<p>
+<p class='post-subheader'>
 	<small>Posted {{ page.date | formatDate }} (Last updated: {% lastUpdatedAt %})</small>
+	<small>{{ content | readingTime }}</small>
 </p>
 <br/>
 
