@@ -54,6 +54,17 @@ footer {
   border-radius: 50%;
 }
 
+.header-anchor {
+  text-decoration: none;
+  color: inherit;
+}
+/* The CSS :target pseudo-selector in CSS matches when the hash in the URL and
+ * the id of an element are the same. 
+ * We use this to style the anchor. */
+:target {
+  background: #fff6c0;
+}
+
 .tags {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(0, max-content));
