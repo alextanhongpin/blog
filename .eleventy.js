@@ -49,9 +49,11 @@ module.exports = function (eleventyConfig) {
     return `/tag/${tag}`;
   });
 
-  eleventyConfig.addFilter("formatDate", function (date) {
-    return format(date, "d MMM Y");
-  });
+  function formatDate(date) {
+    return format(date, "MMM d, Y");
+  }
+
+  eleventyConfig.addFilter("formatDate", formatDate);
 
   eleventyConfig.addShortcode("lastUpdatedAt", async function () {
     const inputPath = this.page?.inputPath;
@@ -60,7 +62,9 @@ module.exports = function (eleventyConfig) {
     }
 
     const stats = await fs.stat(inputPath);
-    return format(stats.mtime, "d MMM Y");
+
+    // Show the last modified time.
+    return formatDate(stats.mtime);
   });
 
   return {
