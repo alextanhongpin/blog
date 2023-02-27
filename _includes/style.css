@@ -63,6 +63,9 @@ main {
 header {
   background: white;
   padding: 1rem;
+  /* Stick header. */
+  position: sticky;
+  top: 0;
 }
 
 main {
