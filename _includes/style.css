@@ -7,6 +7,13 @@
 body {
   background: #fcfcfc;
   font-family: "Roboto", sans-serif;
+
+  /* Makes text unselectable. */
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 }
 
 main {
