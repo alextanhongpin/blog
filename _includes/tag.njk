@@ -9,11 +9,15 @@ pagination:
 permalink: /tag/{{tag}}/
 ---
 
-<h1> Tagged "{{tag}}" </h1>
+<article>
+  <h2>Tagged with "{{tag}}" </h2>
 
-<ol>
-{% set taglist = collections[tag] %}
-{% for post in taglist | reverse %}
-  <li><a href="{{ post.url | url }}">{{ post.data.title }}</a></li>
-{% endfor %}
-</ol>
+  <div>
+    <ul>
+    {% set taglist = collections[tag] %}
+    {% for post in taglist | reverse %}
+      <li><a href="{{ post.url | url }}">{{ post.data.title }}</a></li>
+    {% endfor %}
+    </ul>
+  </div>
+</article>

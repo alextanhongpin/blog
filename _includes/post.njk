@@ -2,19 +2,18 @@
 layout: layout.njk
 ---
 
-<h1> {{ title }} </h1>
+<article>
+	<h1> {{ title }} </h1>
+	<p class='post-subheader'>
+		<small>Posted {{ page.date | formatDate }} (Last updated: {% lastUpdatedAt %})</small>
+		<small>{{ content | readingTime }}</small>
+	</p>
 
-<p class='post-subheader'>
-	<small>Posted {{ page.date | formatDate }} (Last updated: {% lastUpdatedAt %})</small>
-	<small>{{ content | readingTime }}</small>
-</p>
-<br/>
+	<div class='tags'>
+		{%- for tag in tags | cleanTags -%}
+		<a class='tag' href='{{tag | tagURL | url}}'>{{tag}}</a>
+		{%- endfor -%}
+	</div>
 
-<div class='tags'>
-	{%- for tag in tags | cleanTags -%}
-	<a class='tag' href='{{tag | tagURL | url}}'>{{tag}}</a>
-	{%- endfor -%}
-</div>
-<br/>
-
-{{ content | safe }}
+	{{ content | safe }}
+</article>
