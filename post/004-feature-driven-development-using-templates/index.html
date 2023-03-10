@@ -1,0 +1,181 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Include google analytics immediately after the head element. -->
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-S327WZBYSF"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-S327WZBYSF');
+</script>
+
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feature-Driven Development using Templates</title>
+
+    <!-- Use the default prism syntax highlighting theme. -->
+    <link href="https://unpkg.com/prismjs@1.20.0/themes/prism.css" rel="stylesheet">
+
+    <!-- Include styles. -->
+    
+    <style>
+      @import url(https://fonts.googleapis.com/css2?family=Lora:wght@700&family=Roboto:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap);:root{--color-red:#ff4444}body{background:#fcfcfc;font-family:Roboto,sans-serif;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;-moz-user-select:none;-ms-user-select:none}h1,h2{font-family:Lora,sans-serif}code:not([class]){background:#ffc5c536;border:1px solid #ffaeae;font-family:Inconsolata,monospace;padding:.1rem .2rem;font-style:initial;border-radius:3px;color:#ec5050}article h1{font-size:2.5em;line-height:calc(1ex / .42);margin:calc(1ex / .42) 0}article h2{font-size:2em;line-height:calc(1ex / .42);margin:calc(1ex / .42) 0}article h3{font-size:1.75em;line-height:calc(1ex / .38);margin:calc(1ex / .38) 0}article h4{font-size:1.5em;line-height:calc(1ex / .37);margin:calc(1ex / .37) 0}article p{font-size:1em;line-height:calc(1ex / .32);margin:calc(1ex / .32) 0}main{min-height:100vh;max-width:40rem;width:100%;margin:auto}header{background:#fff;padding:1rem;position:sticky;top:0}main{padding:1rem}footer{padding:1rem;font-size:small;text-align:center}.header-link{text-decoration:none;font-weight:700;display:grid;grid-template-columns:max-content 1fr;grid-column-gap:0.5rem;align-items:center}.header-link-image{width:2rem;height:2rem;border-radius:50%}.header-anchor{text-decoration:none;color:inherit}:target{background:#fff6c0}.tags{display:grid;grid-template-columns:repeat(auto-fit,minmax(0,max-content));grid-column-gap:0.5rem;grid-row-gap:0.5rem}.tag{background:#eee;border-radius:.5rem;padding:.5rem;line-height:1rem;font-size:small;text-decoration:none;color:inherit;cursor:pointer}.tag:hover{background:#ddd}.post-subheader{display:flex;justify-content:space-between;align-items:center}*,::after,::before{box-sizing:border-box}*{margin:0}body,html{height:100%}body{line-height:1.5;-webkit-font-smoothing:antialiased}canvas,img,picture,svg,video{display:block;max-width:100%}button,input,select,textarea{font:inherit}h1,h2,h3,h4,h5,h6,p{overflow-wrap:break-word}#__next,#root{isolation:isolate}
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <a class='header-link' href='/blog/' rel="noopener noreferrer">
+        <img class='header-link-image' src='/blog/assets/profile.jpeg' alt='profile picture'/> Alex&#39;s {Code} Blog 
+      </a>
+    </header>
+
+    <main>
+      
+<article>
+	<h1> Feature-Driven Development using Templates </h1>
+	<p class='post-subheader'>
+		<small>Posted Mar 10, 2023 (Last updated: Mar 10, 2023)</small>
+		<small>8 minutes</small>
+	</p>
+
+	<div class='tags'><a class='tag' href='/blog/tag/usecase'>usecase</a></div>
+
+	<p>Feature-Driven-Development (FDD) focuses on building and adding new features. Domain-Driven-Development (DDD) could serve as the initial starting point when working on new projects. However, we often spend time adding new features instead of working on a domain. Also, most projects have already split the repository into their respective domains.</p>
+<h2 id="using-a-template-system" tabindex="-1"><a class="header-anchor" href="#using-a-template-system">Using a Template System</a></h2>
+<p>Templates help bring order to chaos. When working on features, it is easy to get distracted from the goal and get blocked in the process. Having a consistent methodology helps keep this clear. The template serves the following purpose:</p>
+<ul>
+<li>reproducible: you can apply it over and over again for different projects</li>
+<li>repeatable: you can get results from the template</li>
+<li>adaptable: you can adjust the template to suit your needs for different projects</li>
+</ul>
+<p>The <strong>PGM (Problem, Goal, Metrics)</strong> template structure is as follows:</p>
+<ul>
+<li>Problem: identify the root cause. Produce a <em>problem statement</em>.</li>
+<li>Goal: from the problem, set a goal to minimize the problem. Produce a <em>user story</em> and <em>justification template</em>.</li>
+<li>Metrics: measure the effectiveness of our solution, and compare it against our expectations. Produce a <em>metric expectation template</em>.</li>
+</ul>
+<h3 id="identifying-the-problem" tabindex="-1"><a class="header-anchor" href="#identifying-the-problem">Identifying the Problem</a></h3>
+<p>Always start with a <em>problem statement</em>. Before coming up with the feature that solves that problem, you first need to understand the problem you are attempting to solve.</p>
+<p>For example, say we are running an online e-commerce startup. Based on the users' feedback, we formulate the following <em>problem statement</em>:</p>
+<blockquote>
+<p>Users have difficulty making purchases because the items that they want are always out of stock. Often, they have to keep checking the items to see if it is available, which leads to frustration and a poor user experience.</p>
+</blockquote>
+<h3 id="identifying-the-goal" tabindex="-1"><a class="header-anchor" href="#identifying-the-goal">Identifying the Goal</a></h3>
+<p>Once we know the problem we are attempting to solve, we can now work towards our goal. Having a clear goal is important so that you can plan the journey ahead. We can depict our goals using a <a href="https://www.atlassian.com/agile/project-management/user-stories#:~:text=software%20user's%20perspective.-,A%20user%20story%20is%20an%20informal%2C%20general%20explanation%20of%20a,value%20back%20to%20the%20customer.">user story</a>. The <em>user story</em> template is as follows:</p>
+<pre class="language-md"><code class="language-md">As a [persona],<br>I [want to],<br>[so that].</code></pre>
+<p>Our user story would look like this:</p>
+<pre class="language-md"><code class="language-md">As a user,<br>I want to be notified on immediate restock of an item,<br>In order to be able to purchase the item.</code></pre>
+<p>The user story should not leak any implementation details of the feature. Since there could be multiple solutions to a problem, each with different complexity and trade-offs, we need to constantly measure and iterate. As a rule of thumb, always start with a naive solution and iterate your way through it.</p>
+<p>The problem above could be solved through the following features:</p>
+<ul>
+<li>allow users to bookmark the items they want to keep track of. Users can then sort by newly restocked items.</li>
+<li>allow users to subscribe to the items, and send a push notification on restock</li>
+<li>create a separate page that shows recently restocked items</li>
+<li>add a label to the products that have been recently restocked</li>
+<li>allow searching/filtering/sorting for newly restocked items</li>
+</ul>
+<p>Once we have selected the best solution, we justify them with the <em>justification template</em>:</p>
+<pre class="language-md"><code class="language-md">After <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>decision</span> <span class="token attr-name">trigger</span><span class="token punctuation">></span></span><br>We decided to go with <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>solution,</span> <span class="token attr-name">and</span> <span class="token attr-name">a</span> <span class="token attr-name">short</span> <span class="token attr-name">description</span> <span class="token attr-name">on</span> <span class="token attr-name">how</span> <span class="token attr-name">it</span> <span class="token attr-name">works</span><span class="token punctuation">></span></span><br>Because <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>pros</span><span class="token punctuation">></span></span><br>Even though <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>cons</span><span class="token punctuation">></span></span><br>Other options are &lt;optional, list of alternatives and optionally their pros/cons></code></pre>
+<blockquote>
+<p>After conducting extensive user research, we decided to go with restock notification subscription, allowing users to subscribe to items and receive notifications when the items are restocked, because this option seems to be the most engaging to users and users can receive real-time notification, even though sending notifications may cost more.</p>
+</blockquote>
+<h3 id="identifying-the-metrics" tabindex="-1"><a class="header-anchor" href="#identifying-the-metrics">Identifying the Metrics</a></h3>
+<p>Every feature must have <em>measurable outcomes</em>. The metrics are measured over a period of time (by day, week, or month). For each metric, we indicate our <em>expectations</em> using the <strong>Metric Expectation Template (MET)</strong>:</p>
+<blockquote>
+<p>We want to measure &lt;metric&gt;, expecting &lt;expectations&gt;</p>
+</blockquote>
+<ul>
+<li>we want to measure the number of subscriptions, expecting the rate to grow month-on-month</li>
+<li>we want to measure the number of successful notifications sent, expecting the success rate to be higher than the failure rate</li>
+<li>we want to measure the number of failed notifications sent, expecting the error rate to be below 1%</li>
+<li>we want to measure the success of purchases after receiving the notification, expecting a non-zero amount</li>
+</ul>
+<h2 id="diving-into-the-feature" tabindex="-1"><a class="header-anchor" href="#diving-into-the-feature">Diving into the Feature</a></h2>
+<p>Once we know what the problem is and the preferred solution, we can start diving deeper into the building blocks of the feature.</p>
+<ul>
+<li>identifying actors</li>
+<li>identifying elements</li>
+<li>identifying behaviours and interactions between elements</li>
+<li>identitying business logic</li>
+<li>identifying scenarios, interaction between elements with the environment and actor</li>
+<li>identifying edge cases and blockers</li>
+</ul>
+<h3 id="identifying-actors" tabindex="-1"><a class="header-anchor" href="#identifying-actors">Identifying actors</a></h3>
+<p>The actor is the user who will be using this feature. In this case, the actor must be a registered and logged-in user of the app. A premium membership is also required to access this feature.</p>
+<p>If this is a feature that you want to rollout incrementally, you can define the actors as beta users that receive invitations to try out the feature.</p>
+<h3 id="identifying-elements" tabindex="-1"><a class="header-anchor" href="#identifying-elements">Identifying elements</a></h3>
+<p>Elements are simply the simplest building blocks of the feature. It can simply be an object with multiple attributes, which could be stored in the database.</p>
+<p>For our feature, we want to allow users to create <code>Subscriptions</code> to an <code>Item</code> of desire. A user can set the <code>quantity</code> they are interested in purchasing. When the item is restocked with a quantity matching the desired quantity, then the user will receive a <code>Notification</code>.</p>
+<pre class="language-typescript"><code class="language-typescript"><span class="token keyword">interface</span> <span class="token class-name">Subscription</span> <span class="token punctuation">{</span><br>    <span class="token comment">// The quantity the user is interested to purchase.</span><br>    quantity<span class="token operator">:</span> <span class="token builtin">number</span><br>    <br>    <span class="token comment">// The itemId referencing the Item the user is watching.</span><br>    itemId<span class="token operator">:</span> <span class="token builtin">string</span><br><span class="token punctuation">}</span></code></pre>
+<h3 id="identifying-behaviours" tabindex="-1"><a class="header-anchor" href="#identifying-behaviours">Identifying behaviours</a></h3>
+<p>This step answers what we can do with the <em>object</em>. This usually covers the lifecycle of the <em>object</em>, which includes the CRUD of the object.</p>
+<p>For example, user can:</p>
+<ul>
+<li>create subscription (subscribe)</li>
+<li>update subscription</li>
+<li>delete subscription (unsubscribe)</li>
+</ul>
+<p>The system can:</p>
+<ul>
+<li>create notification</li>
+</ul>
+<h3 id="identifying-business-logic" tabindex="-1"><a class="header-anchor" href="#identifying-business-logic">Identifying business logic</a></h3>
+<p>In this step, we should discuss with the stakeholders on the capability as well as limitation of the system. We need to think of the boundary of each elements, which includes:</p>
+<ul>
+<li>min/max limit</li>
+<li>zero scenario (when it doesn't exists)</li>
+<li>one, two or many (when too many)</li>
+<li>exceptions/forbidden actions</li>
+<li>duplicate</li>
+<li>start/end/repeat of usecase (after completion, what happens)?</li>
+<li>failure/success scenarios</li>
+<li>access control, roles and permission</li>
+<li>pagination amount</li>
+</ul>
+<p>We can answer the following questions with <strong>5W1H</strong>:</p>
+<ul>
+<li>how many subscriptions can the user create? max 10</li>
+<li>how many users can create a subscription? all registered, premium users.</li>
+<li>what is the min/max subscriptions? min 1, max 1000</li>
+<li>what if there are no notifications? show a placeholder</li>
+<li>how many notifications to list? 20</li>
+<li>can a user subscribe multiple times to the same item? no</li>
+</ul>
+<h3 id="identifying-scenarios" tabindex="-1"><a class="header-anchor" href="#identifying-scenarios">Identifying scenarios</a></h3>
+<p>We identified the following scenarios here, which we will elaborate on further with the <a href="https://www.wordtemplatesonline.net/use-case-template-examples/">use case templates</a>.</p>
+<ul>
+<li>user create subscription</li>
+<li>user update subscription</li>
+<li>user delete subscription</li>
+<li>admin increment stocks</li>
+<li>system send restock notification</li>
+</ul>
+<p>At the very least, it should cover the main success scenarios:</p>
+<pre class="language-md"><code class="language-md">Scenario: User create subscription<br><br>Steps:<br><span class="token list punctuation">1.</span> User goes to Product Page<br><span class="token list punctuation">2.</span> User attempts to purchase above limit/Item is out of stock<br><span class="token list punctuation">3.</span> System shows the option to subscribe<br><span class="token list punctuation">4.</span> User subscribe<br><span class="token list punctuation">5.</span> System creates the Subscription<br><span class="token list punctuation">6.</span> System notify User that Subscription is created<br><br>Extensions:<br>3a. User is already subscribed, System shows option to edit the Subscription<br>5a. User is forbidden, System returns error</code></pre>
+<h3 id="writing-pseudocode" tabindex="-1"><a class="header-anchor" href="#writing-pseudocode">Writing pseudocode</a></h3>
+<p>Writing pseudocode is useful for initial reviews and encourages early feedback.</p>
+<pre class="language-typescript"><code class="language-typescript"><span class="token keyword">interface</span> <span class="token class-name">RestockNotificationSubscription</span> <span class="token punctuation">{</span><br>    id<span class="token operator">:</span> <span class="token builtin">string</span><br>    userId<span class="token operator">:</span> <span class="token builtin">number</span><br><span class="token punctuation">}</span><br><br><span class="token comment">// createRestockNotificationSubscription creates a new restock notification subscription.</span><br><span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">createRestockNotificationSubscription</span><span class="token punctuation">(</span>userId<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span> itemId<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span> quantity<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">)</span><span class="token operator">:</span> RestockNotificationSubscription <span class="token punctuation">{</span><br>    <span class="token function">checkUserIsPremium</span><span class="token punctuation">(</span>userId<span class="token punctuation">)</span><br>    <span class="token function">checkItemExists</span><span class="token punctuation">(</span>itemId<span class="token punctuation">)</span><br>    <span class="token function">checkQuantityIsValid</span><span class="token punctuation">(</span>quantity<span class="token punctuation">)</span><br>    <span class="token function">checkNotificationIsNotYetCreated</span><span class="token punctuation">(</span>userId<span class="token punctuation">,</span> itemId<span class="token punctuation">)</span><br>    <br>    <span class="token keyword">const</span> subscription <span class="token operator">=</span> <span class="token keyword">await</span> repo<span class="token punctuation">.</span><span class="token function">createRestockNotificationSubscription</span><span class="token punctuation">(</span>userId<span class="token punctuation">,</span> itemId<span class="token punctuation">,</span> quantity<span class="token punctuation">)</span><br>    <span class="token keyword">return</span> subscription<br><span class="token punctuation">}</span><br><br><span class="token keyword">interface</span> <span class="token class-name">StocksCountChangedEvent</span> <span class="token punctuation">{</span><br>    itemId<span class="token operator">:</span> <span class="token builtin">string</span><br>    oldQuantity<span class="token operator">:</span> <span class="token builtin">number</span><br>    newQuantity<span class="token operator">:</span> <span class="token builtin">number</span><br><span class="token punctuation">}</span><br><br><span class="token comment">// watchStocksCount is responsible for checking the change in stocks count and sending the notification.</span><br><span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">watchStocksCount</span><span class="token punctuation">(</span><span class="token punctuation">{</span> itemId<span class="token punctuation">,</span> newQuantity <span class="token punctuation">}</span><span class="token operator">:</span> StocksCountChangedEvent<span class="token punctuation">)</span> <span class="token punctuation">{</span>    <br>    <span class="token keyword">const</span> subscriptions <span class="token operator">=</span> <span class="token keyword">await</span> repo<span class="token punctuation">.</span><span class="token function">findRestockNotificationSubscriptionsMatchingItemAndQuantity</span><span class="token punctuation">(</span>itemId<span class="token punctuation">,</span> newQuantity<span class="token punctuation">)</span><br>    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>subscriptions<span class="token punctuation">.</span>length<span class="token punctuation">)</span> <span class="token keyword">return</span><br>    <br>    <span class="token keyword">const</span> results <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token builtin">Promise</span><span class="token punctuation">.</span><span class="token function">allSettled</span><span class="token punctuation">(</span>subscriptions<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span>sendRestockNotification<span class="token punctuation">)</span><span class="token punctuation">)</span><br>    <span class="token keyword">const</span> successfulResults <span class="token operator">=</span> <span class="token function">filterSuccessful</span><span class="token punctuation">(</span>results<span class="token punctuation">)</span><br>    <span class="token keyword">const</span> failureResults <span class="token operator">=</span> <span class="token function">filterFailure</span><span class="token punctuation">(</span>results<span class="token punctuation">)</span><br>    <span class="token keyword">await</span> repo<span class="token punctuation">.</span><span class="token function">updateSuccessful</span><span class="token punctuation">(</span>successfulResults<span class="token punctuation">)</span><br>    <span class="token keyword">await</span> repo<span class="token punctuation">.</span><span class="token function">updateFailureResults</span><span class="token punctuation">(</span>failureResults<span class="token punctuation">)</span><br><span class="token punctuation">}</span></code></pre>
+<h2 id="iterate-and-document" tabindex="-1"><a class="header-anchor" href="#iterate-and-document">Iterate and document</a></h2>
+<p>There is no last step. We will continuously iterate and make adjustments accordingly. For example, after deploying the system, we may find the following new problems:</p>
+<ul>
+<li>What if many people subscribed (1 million subscribers) to the same item? This will overload the notification system. Also, if the first user purchases all the stocks, other users will be notified but will see no stocks left if they are late. We prioritize users with more quantity, and recent activity. Send to the first batch first, and then after n durations, if the stock is still available, send to the subsequent batch.</li>
+<li>The change in stock count is causing a query every time the stock quantity changes, which can be bad for performance. We can batch the requests. Or even better, we only watch the changes whenever the stocks are incremented.</li>
+</ul>
+<p>The pseudocode below shows the improvement to the system after identifying the new problems:</p>
+<pre class="language-typescript"><code class="language-typescript"><span class="token comment">// watchStocksCount is responsible for checking the change in stocks count and sending the notification.</span><br><span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">watchStocksCount</span><span class="token punctuation">(</span><span class="token punctuation">{</span> itemId<span class="token punctuation">,</span> oldQuantity<span class="token punctuation">,</span> newQuantity <span class="token punctuation">}</span><span class="token operator">:</span> StocksCountChangedEvent<span class="token punctuation">)</span> <span class="token punctuation">{</span><br>    <span class="token keyword">const</span> isRestock <span class="token operator">=</span> oldQuantity <span class="token operator">&lt;</span> newQuantity<br>    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>isRestock<span class="token punctuation">)</span> <span class="token keyword">return</span><br>    <br>    <span class="token comment">// Limit to first 1000 subscribers that has not yet received the restock notification.</span><br>    <span class="token comment">// The reason is the demand is higher than the supply. So if we send to all users,</span><br>    <span class="token comment">// then they may see the item as out of stock if the stocks were purchased by earlier buyer.</span><br>    <span class="token keyword">const</span> <span class="token constant">LIMIT</span> <span class="token operator">=</span> <span class="token number">1_000</span><br>    <br>    <span class="token keyword">const</span> subscriptions <span class="token operator">=</span> <span class="token keyword">await</span> repo<span class="token punctuation">.</span><span class="token function">findRestockNotificationsMatchingQuantity</span><span class="token punctuation">(</span>itemId<span class="token punctuation">,</span> newQuantity<span class="token punctuation">,</span> <span class="token constant">LIMIT</span><span class="token punctuation">)</span><br>    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>subscriptions<span class="token punctuation">.</span>length<span class="token punctuation">)</span> <span class="token keyword">return</span><br>    <br>    <span class="token keyword">const</span> results <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token builtin">Promise</span><span class="token punctuation">.</span><span class="token function">allSettled</span><span class="token punctuation">(</span>subscriptions<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span>sendRestockNotification<span class="token punctuation">)</span><span class="token punctuation">)</span><br>    <span class="token keyword">const</span> successfulResults <span class="token operator">=</span> <span class="token function">filterSuccessful</span><span class="token punctuation">(</span>results<span class="token punctuation">)</span><br>    <span class="token keyword">const</span> failureResults <span class="token operator">=</span> <span class="token function">filterFailure</span><span class="token punctuation">(</span>results<span class="token punctuation">)</span><br>    <span class="token keyword">await</span> repo<span class="token punctuation">.</span><span class="token function">updateSuccessful</span><span class="token punctuation">(</span>successfulResults<span class="token punctuation">)</span><br>    <span class="token keyword">await</span> repo<span class="token punctuation">.</span><span class="token function">updateFailureResults</span><span class="token punctuation">(</span>failureResults<span class="token punctuation">)</span><br><span class="token punctuation">}</span></code></pre>
+
+</article>
+
+    </main>
+
+    <footer>
+      Alex&#39;s {Code} Blog © 2023 • All rights reserved.
+    </footer>
+  </body>
+</html>
