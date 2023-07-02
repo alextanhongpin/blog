@@ -22,15 +22,21 @@ h2 {
   font-family: "Lora", sans-serif;
 }
 
-/* Target all code elemente that does not have any classes applied to it.*/
+/* Target all code elements that does not have any classes applied to it.*/
 code:not([class]) {
-  background: #ffc5c536;
-  border: 1px solid #ffaeae;
-  font-family: "Inconsolata", monospace;
-  padding: 0.1rem 0.2rem;
-  font-style: initial;
-  border-radius: 3px;
-  color: #ec5050;
+  color: #111111;
+  padding: 0.2em 0.4em;
+  margin: 0;
+  white-space: break-spaces;
+  background-color: #dddddd;
+  border-radius: 6px;
+}
+
+code[class*="language-"],
+pre[class*="language-"] {
+  font-size: small;
+  /* Break to new line if overflow. */
+  /*white-space: break-spaces;*/
 }
 
 /* https://www.smashingmagazine.com/2020/07/css-techniques-legibility/ */
@@ -126,7 +132,7 @@ footer {
 .tag {
   background: #eee;
   border-radius: 0.5rem;
-  padding: 0.5rem;
+  padding: 0.25rem;
   line-height: 1rem;
   font-size: small;
   text-decoration: none;
@@ -141,4 +147,23 @@ footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+blockquote {
+  background: #f4f4f4;
+  border-left: 10px solid #ccc;
+  margin: 1.5em 10px;
+  padding: 0.5em 10px;
+  quotes: "\201C""\201D""\2018""\2019";
+}
+blockquote:before {
+  color: #ccc;
+  content: open-quote;
+  font-size: 4em;
+  line-height: 0.1em;
+  margin-right: 0.25em;
+  vertical-align: -0.4em;
+}
+blockquote p {
+  display: inline;
 }

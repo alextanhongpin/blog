@@ -24,7 +24,7 @@ The **PGM (Problem, Goal, Metrics)** template structure is as follows:
 
 ### Identifying the Problem
 
-Always start with a _problem statement_. Before coming up with the feature that solves that problem, you first need to understand the problem you are attempting to solve. 
+Always start with a _problem statement_. Before coming up with the feature that solves that problem, you first need to understand the problem you are attempting to solve.
 
 For example, say we are running an online e-commerce startup. Based on the users' feedback, we formulate the following _problem statement_:
 
@@ -85,7 +85,7 @@ Every feature must have _measurable outcomes_. The metrics are measured over a p
 
 ## Diving into the Feature
 
-Once we know what the problem is and the preferred solution, we can start diving deeper into the building blocks of the feature. 
+Once we know what the problem is and the preferred solution, we can start diving deeper into the building blocks of the feature.
 
 - identifying actors
 - identifying elements
@@ -104,13 +104,13 @@ If this is a feature that you want to rollout incrementally, you can define the 
 
 Elements are simply the simplest building blocks of the feature. It can simply be an object with multiple attributes, which could be stored in the database.
 
-For our feature, we want to allow users to create `Subscriptions` to an `Item` of desire. A user can set the `quantity` they are interested in purchasing. When the item is restocked with a quantity matching the desired quantity, then the user will receive a `Notification`. 
+For our feature, we want to allow users to create `Subscriptions` to an `Item` of desire. A user can set the `quantity` they are interested in purchasing. When the item is restocked with a quantity matching the desired quantity, then the user will receive a `Notification`.
 
 ```typescript
 interface Subscription {
     // The quantity the user is interested to purchase.
     quantity: number
-    
+
     // The itemId referencing the Item the user is watching.
     itemId: string
 }
@@ -118,7 +118,7 @@ interface Subscription {
 
 ### Identifying behaviours
 
-This step answers what we can do with the _object_. This usually covers the lifecycle of the _object_, which includes the CRUD of the object. 
+This step answers what we can do with the _object_. This usually covers the lifecycle of the _object_, which includes the CRUD of the object.
 
 For example, user can:
 - create subscription (subscribe)
@@ -136,7 +136,7 @@ In this step, we should discuss with the stakeholders on the capability as well 
 - zero scenario (when it doesn't exists)
 - one, two or many (when too many)
 - exceptions/forbidden actions
-- duplicate 
+- duplicate
 - start/end/repeat of usecase (after completion, what happens)?
 - failure/success scenarios
 - access control, roles and permission
@@ -180,7 +180,7 @@ Extensions:
 
 ### Writing pseudocode
 
-Writing pseudocode is useful for initial reviews and encourages early feedback. 
+Writing pseudocode is useful for initial reviews and encourages early feedback.
 
 ```typescript
 interface RestockNotificationSubscription {
@@ -194,7 +194,7 @@ async function createRestockNotificationSubscription(userId: string, itemId: str
     checkItemExists(itemId)
     checkQuantityIsValid(quantity)
     checkNotificationIsNotYetCreated(userId, itemId)
-    
+
     const subscription = await repo.createRestockNotificationSubscription(userId, itemId, quantity)
     return subscription
 }
@@ -206,10 +206,10 @@ interface StocksCountChangedEvent {
 }
 
 // watchStocksCount is responsible for checking the change in stocks count and sending the notification.
-async function watchStocksCount({ itemId, newQuantity }: StocksCountChangedEvent) {    
+async function watchStocksCount({ itemId, newQuantity }: StocksCountChangedEvent) {
     const subscriptions = await repo.findRestockNotificationSubscriptionsMatchingItemAndQuantity(itemId, newQuantity)
     if (!subscriptions.length) return
-    
+
     const results = await Promise.allSettled(subscriptions.map(sendRestockNotification))
     const successfulResults = filterSuccessful(results)
     const failureResults = filterFailure(results)
@@ -234,15 +234,15 @@ The pseudocode below shows the improvement to the system after identifying the n
 async function watchStocksCount({ itemId, oldQuantity, newQuantity }: StocksCountChangedEvent) {
     const isRestock = oldQuantity < newQuantity
     if (!isRestock) return
-    
+
     // Limit to first 1000 subscribers that has not yet received the restock notification.
     // The reason is the demand is higher than the supply. So if we send to all users,
     // then they may see the item as out of stock if the stocks were purchased by earlier buyer.
     const LIMIT = 1_000
-    
+
     const subscriptions = await repo.findRestockNotificationsMatchingQuantity(itemId, newQuantity, LIMIT)
     if (!subscriptions.length) return
-    
+
     const results = await Promise.allSettled(subscriptions.map(sendRestockNotification))
     const successfulResults = filterSuccessful(results)
     const failureResults = filterFailure(results)

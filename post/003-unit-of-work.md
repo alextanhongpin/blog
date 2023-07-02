@@ -7,6 +7,9 @@ tags:
 
 _Unit of Work (or short, `UoW`)_ is a pattern of grouping multiple database operations and executing them as a single atomic operation. An operation is atomic if all the suboperations complete, or none of them do.
 
+> **Note**
+> The package in this example has been renamed to [dbtx](https://github.com/alextanhongpin/dbtx).
+
 ## The Problem
 
 In your application, you may want to ensure multiple database operations happen in a single transaction. This could be an insert operation to multiple tables, for example.Transactions are important to ensure data integrity. If the first insert succeeds but the second fails, the first operation should rollback so that none of the inserts happen.
