@@ -1,0 +1,131 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Include google analytics immediately after the head element. -->
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-S327WZBYSF"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-S327WZBYSF');
+</script>
+
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deferred Logging</title>
+
+    <!-- Use the default prism syntax highlighting theme. -->
+    <link href="https://unpkg.com/prismjs@1.20.0/themes/prism.css" rel="stylesheet">
+
+    <!-- Include styles. -->
+    
+    <style>
+      @import url(https://fonts.googleapis.com/css2?family=Lora:wght@700&family=Roboto:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap);:root{--color-red:#ff4444}body{background:#fcfcfc;font-family:Roboto,sans-serif;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;-moz-user-select:none;-ms-user-select:none}h1,h2{font-family:Lora,sans-serif}code:not([class]){color:#111;padding:.2em .4em;margin:0;white-space:break-spaces;background-color:#ddd;border-radius:6px}code[class*=language-],pre[class*=language-]{font-size:small}article h1{font-size:2.5em;line-height:calc(1ex / .42);margin:calc(1ex / .42) 0}article h2{font-size:2em;line-height:calc(1ex / .42);margin:calc(1ex / .42) 0}article h3{font-size:1.75em;line-height:calc(1ex / .38);margin:calc(1ex / .38) 0}article h4{font-size:1.5em;line-height:calc(1ex / .37);margin:calc(1ex / .37) 0}article p{font-size:1em;line-height:calc(1ex / .32);margin:calc(1ex / .32) 0}main{min-height:100vh;max-width:40rem;width:100%;margin:auto}header{background:#fff;padding:1rem;position:sticky;top:0}main{padding:1rem}footer{padding:1rem;font-size:small;text-align:center}.header-link{text-decoration:none;font-weight:700;display:grid;grid-template-columns:max-content 1fr;grid-column-gap:0.5rem;align-items:center}.header-link-image{width:2rem;height:2rem;border-radius:50%}.header-anchor{text-decoration:none;color:inherit}:target{background:#fff6c0}.tags{display:grid;grid-template-columns:repeat(auto-fit,minmax(0,max-content));grid-column-gap:0.5rem;grid-row-gap:0.5rem}.tag{background:#eee;border-radius:.5rem;padding:.25rem;line-height:1rem;font-size:small;text-decoration:none;color:inherit;cursor:pointer}.tag:hover{background:#ddd}.post-subheader{display:flex;justify-content:space-between;align-items:center}blockquote{background:#f4f4f4;border-left:10px solid #ccc;margin:1.5em 10px;padding:.5em 10px;quotes:"\201C""\201D""\2018""\2019"}blockquote:before{color:#ccc;content:open-quote;font-size:4em;line-height:.1em;margin-right:.25em;vertical-align:-.4em}blockquote p{display:inline}*,::after,::before{box-sizing:border-box}*{margin:0}body,html{height:100%}body{line-height:1.5;-webkit-font-smoothing:antialiased}canvas,img,picture,svg,video{display:block;max-width:100%}button,input,select,textarea{font:inherit}h1,h2,h3,h4,h5,h6,p{overflow-wrap:break-word}#__next,#root{isolation:isolate}
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <a class='header-link' href='/blog/' rel="noopener noreferrer">
+        <img class='header-link-image' src='/blog/assets/profile.jpeg' alt='profile picture'/> Alex&#39;s {Code} Blog 
+      </a>
+    </header>
+
+    <main>
+      
+<article>
+	<h1> Deferred Logging </h1>
+	<p class='post-subheader'>
+		<small>Posted Jul 2, 2023 (Last updated: Jul 2, 2023)</small>
+		<small>3 minutes</small>
+	</p>
+
+	<div class='tags'><a class='tag' href='/blog/tag/golang'>golang</a><a class='tag' href='/blog/tag/logging'>logging</a></div>
+
+	<h2 id="problem" tabindex="-1"><a class="header-anchor" href="#problem">Problem</a></h2>
+<p>We want to avoid logging too much to avoid generating huge amount of logs. But at the same time, we want to avoid losing important information that is not logged.</p>
+<p>In <code>production</code> environment, the logs are usually configured to log up to <code>INFO</code> level. So any logs below the <code>INFO</code> level will not be visible.</p>
+<p>However, when an error occured, we may want to log all logs with the level <code>DEBUG</code> and <code>TRACE</code>.</p>
+<p>Logs with <code>DEBUG</code> level usually guides step-by-step on what path the request took to hit the error, while those with <code>TRACE</code> level usually contains information such as SQL queries or HTTP requests.</p>
+<p>Toggling them dynamically is not an option, as the issue may no longer be reproducible.</p>
+<h2 id="proposed-solution" tabindex="-1"><a class="header-anchor" href="#proposed-solution">Proposed Solution</a></h2>
+<p>The proposed solution is quite simple. One of common approach is to use <code>ring buffer logging</code>, where we buffer all the logs before printing them. When there are logs of level <code>ERROR</code>, then we flush all of the existing logs.</p>
+<p>In <code>golang</code>, we can achieve this without implementing a ring buffer. All we need is a simple <code>defer</code> statement to delay the logging execution. When an error occurred, we can then update the logger's log level to <code>DEBUG</code>.</p>
+<p>Before getting into the code, let us visualize how it would look.</p>
+<p>In normal situation, only <code>INFO</code>-level logs will be printed.</p>
+<pre class="language-bash"><code class="language-bash">➜  examples git:<span class="token punctuation">(</span>main<span class="token punctuation">)</span> ✗ go run main.go
+<span class="token assign-left variable">time</span><span class="token operator">=</span><span class="token number">2023</span>-07-03T00:10:19.632+08:00 <span class="token assign-left variable">level</span><span class="token operator">=</span>INFO <span class="token assign-left variable">msg</span><span class="token operator">=</span><span class="token string">"called Bar"</span> <span class="token assign-left variable">req_id</span><span class="token operator">=</span>cigq2qvltaq0dcj5tat0</code></pre>
+<p>However, when an error occured, all logs level will be printed.</p>
+<pre class="language-bash"><code class="language-bash">➜  examples git:<span class="token punctuation">(</span>main<span class="token punctuation">)</span> ✗ go run main.go
+<span class="token assign-left variable">time</span><span class="token operator">=</span><span class="token number">2023</span>-07-03T00:10:17.085+08:00 <span class="token assign-left variable">level</span><span class="token operator">=</span>ERROR <span class="token assign-left variable">msg</span><span class="token operator">=</span><span class="token string">"failed to call Bar"</span> <span class="token assign-left variable">req_id</span><span class="token operator">=</span>cigq2q7ltaq0d1n2nle0
+<span class="token assign-left variable">time</span><span class="token operator">=</span><span class="token number">2023</span>-07-03T00:10:17.340+08:00 <span class="token assign-left variable">level</span><span class="token operator">=</span>DEBUG <span class="token assign-left variable">msg</span><span class="token operator">=</span><span class="token string">"called Bar"</span> <span class="token assign-left variable">req_id</span><span class="token operator">=</span>cigq2q7ltaq0d1n2nle0 <span class="token assign-left variable">elapsed</span><span class="token operator">=</span>342ns
+<span class="token assign-left variable">time</span><span class="token operator">=</span><span class="token number">2023</span>-07-03T00:10:17.340+08:00 <span class="token assign-left variable">level</span><span class="token operator">=</span>DEBUG <span class="token assign-left variable">msg</span><span class="token operator">=</span><span class="token string">"called Foo"</span> <span class="token assign-left variable">req_id</span><span class="token operator">=</span>cigq2q7ltaq0d1n2nle0 <span class="token assign-left variable">elapsed</span><span class="token operator">=</span>458ns</code></pre>
+<p>The repository for this example can be found <a href="https://github.com/alextanhongpin/go-slog-ring-buffer/tree/main/examples">here</a>.</p>
+<p>We first define the interface of our logger:</p>
+<pre class="language-go"><code class="language-go"><span class="token keyword">type</span> logger <span class="token keyword">interface</span> <span class="token punctuation">{</span>
+	<span class="token function">ErrorCtx</span><span class="token punctuation">(</span>ctx context<span class="token punctuation">.</span>Context<span class="token punctuation">,</span> msg <span class="token builtin">string</span><span class="token punctuation">,</span> attrs <span class="token operator">...</span>slog<span class="token punctuation">.</span>Attr<span class="token punctuation">)</span>
+	<span class="token function">DebugCtx</span><span class="token punctuation">(</span>ctx context<span class="token punctuation">.</span>Context<span class="token punctuation">,</span> msg <span class="token builtin">string</span><span class="token punctuation">,</span> attrs <span class="token operator">...</span>slog<span class="token punctuation">.</span>Attr<span class="token punctuation">)</span>
+	<span class="token function">InfoCtx</span><span class="token punctuation">(</span>ctx context<span class="token punctuation">.</span>Context<span class="token punctuation">,</span> msg <span class="token builtin">string</span><span class="token punctuation">,</span> attrs <span class="token operator">...</span>slog<span class="token punctuation">.</span>Attr<span class="token punctuation">)</span>
+	<span class="token comment">/* Add other levels when required */</span>
+<span class="token punctuation">}</span></code></pre>
+<p>For the implementation, we want to be able to toggle the logger's level when it is <code>ERROR</code>:</p>
+<pre class="language-go"><code class="language-go"><span class="token keyword">func</span> <span class="token punctuation">(</span>l <span class="token operator">*</span>Logger<span class="token punctuation">)</span> <span class="token function">ErrorCtx</span><span class="token punctuation">(</span>ctx context<span class="token punctuation">.</span>Context<span class="token punctuation">,</span> msg <span class="token builtin">string</span><span class="token punctuation">,</span> attrs <span class="token operator">...</span>slog<span class="token punctuation">.</span>Attr<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	l<span class="token punctuation">.</span><span class="token function">LogAttrs</span><span class="token punctuation">(</span>ctx<span class="token punctuation">,</span> slog<span class="token punctuation">.</span>LevelError<span class="token punctuation">,</span> msg<span class="token punctuation">,</span> attrs<span class="token operator">...</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">func</span> <span class="token punctuation">(</span>l <span class="token operator">*</span>Logger<span class="token punctuation">)</span> <span class="token function">LogAttrs</span><span class="token punctuation">(</span>ctx context<span class="token punctuation">.</span>Context<span class="token punctuation">,</span> level slog<span class="token punctuation">.</span>Level<span class="token punctuation">,</span> msg <span class="token builtin">string</span><span class="token punctuation">,</span> attrs <span class="token operator">...</span>slog<span class="token punctuation">.</span>Attr<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	<span class="token keyword">if</span> level <span class="token operator">==</span> slog<span class="token punctuation">.</span>LevelError <span class="token punctuation">{</span>
+		<span class="token comment">// Enable up to DEBUG level.</span>
+		l<span class="token punctuation">.</span>LevelVar<span class="token punctuation">.</span><span class="token function">Set</span><span class="token punctuation">(</span>slog<span class="token punctuation">.</span>LevelDebug<span class="token punctuation">)</span>
+	<span class="token punctuation">}</span>
+
+	l<span class="token punctuation">.</span>Logger<span class="token punctuation">.</span><span class="token function">LogAttrs</span><span class="token punctuation">(</span>ctx<span class="token punctuation">,</span> level<span class="token punctuation">,</span> msg<span class="token punctuation">,</span> attrs<span class="token operator">...</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code></pre>
+<p>In our application, we can then just <code>defer</code> the logging. When we log an error, then the logger's level will be updated, and the previously deferred log will the be executed:</p>
+<pre class="language-go"><code class="language-go"><span class="token keyword">package</span> main
+
+<span class="token keyword">import</span> <span class="token punctuation">(</span><span class="token comment">/* !REDACTED */</span><span class="token punctuation">)</span>
+
+<span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	ctx <span class="token operator">:=</span> context<span class="token punctuation">.</span><span class="token function">Background</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	<span class="token function">Foo</span><span class="token punctuation">(</span>ctx<span class="token punctuation">,</span> <span class="token function">NewLogger</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">func</span> <span class="token function">Foo</span><span class="token punctuation">(</span>ctx context<span class="token punctuation">.</span>Context<span class="token punctuation">,</span> l logger<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	start <span class="token operator">:=</span> time<span class="token punctuation">.</span><span class="token function">Now</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	<span class="token keyword">defer</span> l<span class="token punctuation">.</span><span class="token function">DebugCtx</span><span class="token punctuation">(</span>ctx<span class="token punctuation">,</span> <span class="token string">"called Foo"</span><span class="token punctuation">,</span> slog<span class="token punctuation">.</span><span class="token function">Duration</span><span class="token punctuation">(</span><span class="token string">"elapsed"</span><span class="token punctuation">,</span> time<span class="token punctuation">.</span><span class="token function">Since</span><span class="token punctuation">(</span>start<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+	time<span class="token punctuation">.</span><span class="token function">Sleep</span><span class="token punctuation">(</span><span class="token number">250</span> <span class="token operator">*</span> time<span class="token punctuation">.</span>Millisecond<span class="token punctuation">)</span>
+
+	<span class="token function">Bar</span><span class="token punctuation">(</span>ctx<span class="token punctuation">,</span> l<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">func</span> <span class="token function">Bar</span><span class="token punctuation">(</span>ctx context<span class="token punctuation">.</span>Context<span class="token punctuation">,</span> l logger<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	start <span class="token operator">:=</span> time<span class="token punctuation">.</span><span class="token function">Now</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	<span class="token keyword">defer</span> l<span class="token punctuation">.</span><span class="token function">DebugCtx</span><span class="token punctuation">(</span>ctx<span class="token punctuation">,</span> <span class="token string">"called Bar"</span><span class="token punctuation">,</span> slog<span class="token punctuation">.</span><span class="token function">Duration</span><span class="token punctuation">(</span><span class="token string">"elapsed"</span><span class="token punctuation">,</span> time<span class="token punctuation">.</span><span class="token function">Since</span><span class="token punctuation">(</span>start<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+	isErr <span class="token operator">:=</span> rand<span class="token punctuation">.</span><span class="token function">Intn</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span> <span class="token operator">&lt;</span> <span class="token number">1</span>
+	<span class="token keyword">if</span> isErr <span class="token punctuation">{</span>
+		l<span class="token punctuation">.</span><span class="token function">ErrorCtx</span><span class="token punctuation">(</span>ctx<span class="token punctuation">,</span> <span class="token string">"failed to call Bar"</span><span class="token punctuation">)</span>
+	<span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+		l<span class="token punctuation">.</span><span class="token function">InfoCtx</span><span class="token punctuation">(</span>ctx<span class="token punctuation">,</span> <span class="token string">"called Bar"</span><span class="token punctuation">)</span>
+	<span class="token punctuation">}</span>
+
+	time<span class="token punctuation">.</span><span class="token function">Sleep</span><span class="token punctuation">(</span><span class="token number">250</span> <span class="token operator">*</span> time<span class="token punctuation">.</span>Millisecond<span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code></pre>
+<h2 id="summary" tabindex="-1"><a class="header-anchor" href="#summary">Summary</a></h2>
+<p>You can simulate ring buffer logging using <code>defer</code> statement in <code>golang</code>.</p>
+
+</article>
+
+    </main>
+
+    <footer>
+      Alex&#39;s {Code} Blog © 2023 • All rights reserved.
+    </footer>
+  </body>
+</html>
